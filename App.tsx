@@ -7,7 +7,13 @@ import SignupScreen from './screens/SignupScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import { Colors } from './constants/styles';
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  Login: undefined;
+  Signup: undefined;
+  Welcome: undefined;
+};
+
+export const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function AuthStack() {
   return (
