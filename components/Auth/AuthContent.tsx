@@ -9,7 +9,7 @@ import { RootStackParamList } from '../../App';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type AuthContentProps = {
-  isLogin: boolean;
+  isLogin?: boolean;
   onAuthenticate: (credentials: { email: string; password: string }) => void;
 };
 type AuthNavProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
