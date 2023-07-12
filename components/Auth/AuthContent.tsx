@@ -24,7 +24,6 @@ function AuthContent({ isLogin, onAuthenticate }: AuthContentProps) {
 
   const navigation = useNavigation<AuthNavProp>();
   function switchAuthModeHandler() {
-    // Todo
     if (isLogin) navigation.replace('Signup');
     else navigation.replace('Login');
   }

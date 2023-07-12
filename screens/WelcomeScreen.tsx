@@ -3,8 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 function WelcomeScreen() {
   return (
     <View style={styles.rootContainer}>
+      <Text>Authentication successful</Text>
       <Text style={styles.title}>Welcome!</Text>
-      <Text>You authenticated successfully!</Text>
     </View>
   );
 }
@@ -21,6 +21,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginVertical: 8,
   },
 });
