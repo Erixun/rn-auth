@@ -1,7 +1,8 @@
+import { createUser } from '../auth/authenticate';
 import AuthContent from '../components/Auth/AuthContent';
 
 function SignupScreen() {
-  return <AuthContent />;
+  return <AuthContent onAuthenticate={createUser} />;
 }
 
 export default SignupScreen;
