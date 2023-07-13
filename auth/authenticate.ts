@@ -11,7 +11,7 @@ export const signIn = async (credentials: Credentials) => {
 
 const authenticate = async (mode: AuthMode, credentials: Credentials) => {
   const response = await axios
-    .post(
+    .post<AuthResponse>(
       `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${API_KEY}`,
       {
         ...credentials,
@@ -19,9 +19,17 @@ const authenticate = async (mode: AuthMode, credentials: Credentials) => {
       }
     )
     .then((response) => {
-      console.log(response);
+      console.log(response.data);
+      return response
     });
+
+    return response.data
 };
+
+type AuthResponse = {
+  idToken: string,
+  refreshToken: string,
+}
 
 export type AuthMode = 'signUp' | 'signInWithPassword';
 export type Credentials = {

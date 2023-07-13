@@ -10,7 +10,7 @@ const defaultConfig = {
 
 export type AuthConfig = typeof defaultConfig;
 
-const AuthContext = createContext<AuthConfig>(defaultConfig);
+export const AuthContext = createContext<AuthConfig>(defaultConfig);
 
 export const AuthContextProvider = ({
   children,

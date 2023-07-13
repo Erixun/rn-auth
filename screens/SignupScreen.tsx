@@ -1,20 +1,26 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Credentials, createUser } from '../auth/authenticate';
 import AuthContent from '../components/Auth/AuthContent';
-import { RootStackParamList } from '../App';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import LoadingOverlay from '../components/ui/LoadingOverlay';
-import { SIGNUP } from '../constants/screen';
+import { SIGNUP } from '../constants/screens';
 import { ErrorOverlay } from '../components/ui/ErrorOverlay';
+import { AuthContext } from '../store/authContext';
+import { RootStackParamList } from '../types/RootStackParamList';
 
 function SignupScreen({ navigation }: SignupScreenProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
+  const authCtx = useContext(AuthContext);
+
   const signupHandler = async (credentials: Credentials) => {
     setIsLoading(true);
     createUser(credentials)
-      .then(() => navigation.replace('Login'))
+      .then(({ idToken }) => {
+        authCtx.authenticate(idToken);
+        navigation.replace('Login');
+      })
       .catch((error) => {
         console.log('Error signing up', error);
         setError(error.message);

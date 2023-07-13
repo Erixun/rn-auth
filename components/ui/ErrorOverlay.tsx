@@ -1,13 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { View, ViewStyle, Text, TextStyle } from 'react-native';
-import { RootStackParamList } from '../../App';
 import Button from './Button';
-import { Screen } from '../../constants/screen';
+import { RootStackParamList } from '../../types/RootStackParamList';
+import { Screen } from '../../types/Screen';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList, Screen>;
-
-type ReturnScreen = keyof RootStackParamList;
 
 export const ErrorOverlay = ({
   message,
