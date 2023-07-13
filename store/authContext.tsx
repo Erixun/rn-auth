@@ -1,36 +1,38 @@
 import { ReactNode, createContext, useState } from 'react';
 
-const AuthContext = createContext({
+const defaultConfig = {
   token: '',
+  // refreshToken: '',
   isAuthenticated: false,
-  authenticate: (token: string) => {},
-  logout: () => {},
-});
+  authenticate: (token: string) => {}, //method for changing the state
+  logout: () => {}, //erases token and so son
+};
 
-export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
-  const [token, setToken] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+export type AuthConfig = typeof defaultConfig;
+
+const AuthContext = createContext<AuthConfig>(defaultConfig);
+
+export const AuthContextProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  const [authToken, setAuthToken] = useState<string | undefined>();
 
   const authenticate = (token: string) => {
-    setToken(token);
-    setIsAuthenticated(true);
+    setAuthToken(token);
   };
 
   const logout = () => {
-    setToken('');
-    setIsAuthenticated(false);
+    setAuthToken(undefined);
   };
 
-  return (
-    <AuthContext.Provider
-      value={{
-        token,
-        isAuthenticated,
-        authenticate,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  const value: AuthConfig = {
+    token: authToken,
+    isAuthenticated: Boolean(authToken),
+    authenticate,
+    logout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
