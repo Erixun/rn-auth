@@ -4,10 +4,9 @@ import {
   createContext,
   useEffect,
   useState,
-  useContext,
   useCallback,
 } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 import { TOKEN_KEY } from '../config/keys';
 import * as SplashScreen from 'expo-splash-screen';
 

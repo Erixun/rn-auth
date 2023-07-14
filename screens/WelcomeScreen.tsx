@@ -7,6 +7,7 @@ import { AuthContext } from '../store/authContext';
 function WelcomeScreen() {
   const [secretMessage, setSecretMessage] = useState('');
   const { token } = useContext(AuthContext);
+
   useEffect(() => {
     axios
       .get(`${DB_URL}/message.json?auth=${token}`)
