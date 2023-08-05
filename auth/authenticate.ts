@@ -26,9 +26,9 @@ const authenticate = async (mode: AuthMode, credentials: Credentials) => {
     return response.data
 };
 
-type AuthResponse = {
+export type AuthResponse = {
   idToken: string,
-  refreshToken: string,
+  refreshToken?: string,
 }
 
 export type AuthMode = 'signUp' | 'signInWithPassword';

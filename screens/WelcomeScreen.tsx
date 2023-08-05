@@ -1,22 +1,53 @@
 import { useEffect, useState, useContext } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import axios from 'axios';
-import { DB_URL } from '../config/keys';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import axios, { AxiosError } from 'axios';
+import { API_KEY, DB_URL } from '../config/keys';
 import { AuthContext } from '../store/authContext';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 function WelcomeScreen() {
   const [secretMessage, setSecretMessage] = useState('');
-  const { token } = useContext(AuthContext);
+  const [hasTokenExpired, setHasTokenExpired] = useState(false); // [1
+  const { token, refreshToken, authenticate } = useContext(AuthContext);
 
-  useEffect(() => {
+  const getFreshToken = () => {
+    axios
+      .post(`https://securetoken.googleapis.com/v1/token?key=${API_KEY}`, {
+        grant_type: 'refresh_token',
+        refresh_token: refreshToken,
+      })
+      .then((res) => {
+        console.log(res.data);
+        console.log('TRYING TO REFRESH TOKEN');
+        return res.data;
+      })
+      .then(({ id_token, refresh_token }) => {
+        authenticate(id_token, refresh_token);
+        setHasTokenExpired(false);
+      })
+      .catch(console.error);
+  };
+
+  const getSecretMessage = () => {
     axios
       .get(`${DB_URL}/message.json?auth=${token}`)
       .then((res) => {
         console.log(res.data);
         return res.data;
       })
-      .then(setSecretMessage);
-  }, []);
+      .then(setSecretMessage)
+      .catch((error: AxiosError) => {
+        console.log(error.code);
+        setHasTokenExpired(true);
+      });
+  };
+
+  useEffect(() => {
+    if (hasTokenExpired) getFreshToken();
+    else getSecretMessage();
+  }, [hasTokenExpired]);
+
+  if (!secretMessage) return <ActivityIndicator size="large" color="#0000ff" />;
 
   return (
     <View style={styles.rootContainer}>

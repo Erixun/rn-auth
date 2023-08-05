@@ -14,8 +14,8 @@ function LoginScreen() {
   const authHandler = async (credentials: Credentials) => {
     setIsLoading(true);
     signIn(credentials)
-      .then(({ idToken }) => {
-        authCtx.authenticate(idToken);
+      .then(({ idToken, refreshToken }) => {
+        authCtx.authenticate(idToken, refreshToken);
       })
       .catch((error) => {
         console.log('Error signing in', error);
